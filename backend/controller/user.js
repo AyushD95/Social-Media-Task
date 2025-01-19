@@ -12,7 +12,6 @@ async function userUpload (req, res)
       const user = new User({ name, socialMediaHandle, images });
       await user.save();
 
-      console.log(user.images)  
 
       io.emit('new-submission', user);
       res.status(201).json(user);

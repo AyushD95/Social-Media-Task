@@ -5,9 +5,11 @@ import { io } from 'socket.io-client';
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   useEffect(() => {
-    // Check if admin is logged in from localStorage
+
     const adminLoggedIn = localStorage.getItem('adminLoggedIn');
     if (adminLoggedIn === 'true') {
       setIsLoggedIn(true);
@@ -18,7 +20,7 @@ const AdminDashboard = () => {
     }
 
     // Initialize Socket.IO connection
-    const socket = io('http://localhost:5000');
+    const socket = io('http://localhost:50001');
 
     // Listen for 'new-submission' event
     socket.on('new-submission', (newUser) => {
@@ -33,11 +35,21 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/admin/api/users');
+      const response = await axios.get('http://localhost:50001/admin/api/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching Users:', error);
     }
+  };
+
+  const openModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage('');
   };
 
   return (
@@ -46,29 +58,122 @@ const AdminDashboard = () => {
         <>
           <h2>Admin Dashboard</h2>
           {users.length > 0 ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-              {users.map((image) => (
-                <div key={image._id} style={{ border: '1px solid #ddd', padding: '10px' }}>
-                  <img
-                    src={image.images[0]}
-                    alt="User submission"
-                    style={{ width: '100%', height: 'auto', marginBottom: '10px' }}
-                  />
-                  <p><strong>Name:</strong> {image.name}</p>
-                  <p><strong>Social Handle:</strong> {image.socialMediaHandle}</p>
-                  <p><strong>Uploaded At:</strong> {new Date(image.createdAt).toLocaleString()}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>No Users found.</p>
-          )}
+  <div style={{ marginTop: '20px' }}>
+    {users.map((user) => (
+      user.images.map((imgUrl, index) => (
+        <div
+          key={`${user._id}-${index}`}
+          style={{
+            display: 'flex',
+            border: '1px solid white',
+            backgroundColor: '#333',
+            borderRadius: '7px',
+            alignItems: 'center',
+            marginBottom: '20px',
+            padding: '10px',
+          }}
+        >
+          <div style={{ flex: 1, paddingRight: '20px' }}>
+            <p><strong>Name:</strong> {user.name}</p>
+            <p><strong>Social Handle:</strong>
+              <a href={`${user.socialMediaHandle}`} target="_blank" rel="noopener noreferrer"style={{
+                  color: '#00aced', 
+                  textDecoration: 'none', 
+                  fontWeight: 'bold',
+                  fontSize: '16px', 
+                  transition: 'color 0.3s', 
+                }}>
+                {user.socialMediaHandle}
+              </a>
+            </p>
+            <p><strong>Uploaded At:</strong> {new Date(user.createdAt).toLocaleString()}</p>
+          </div>
+
+          <div style={{ flexShrink: 0 }}>
+            <img
+              src={imgUrl}
+              alt={`User submission ${index + 1}`}
+              onClick={() => openModal(imgUrl)} // Function to open modal for preview
+              style={{
+                width: '150px',
+                height: '150px',
+                objectFit: 'cover',
+                cursor: 'pointer',
+                borderRadius: '8px',
+                marginBottom: '10px', // Space between images
+              }}
+            />
+          </div>
+        </div>
+      ))
+    ))}
+  </div>
+) : (
+  <p>No Users found.</p>
+)}
+
         </>
       ) : (
         <p>Please log in to view the dashboard.</p>
       )}
+
+      {isModalOpen && (
+        <div style={modalStyles.overlay}>
+          <div style={modalStyles.modal}>
+            <button onClick={closeModal} style={modalStyles.closeButton}>X</button>
+            <img
+              src={selectedImage}
+              alt="Preview"
+              style={modalStyles.modalImage}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
+};
+
+// Styles for the Modal
+const modalStyles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modal: {
+    position: 'relative',
+    backgroundColor: '#fff',
+    padding: '10px',
+    borderRadius: '8px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+    width: '300px', // Fixed width
+    height: '300px', // Fixed height
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    cursor: 'pointer',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    borderRadius: '8px',
+  },
 };
 
 export default AdminDashboard;
