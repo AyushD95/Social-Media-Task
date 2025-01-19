@@ -7,7 +7,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
   const [password, setPassword] = useState("123");
 
   const handleLogin = async (e) => {
-    e.preventDefault();                  
+    e.preventDefault();                 
     try {
       const response = await axios.post("https://social-media-task-iota.vercel.app/admin/api/login", { username, password });
       if (response.data.success) {
