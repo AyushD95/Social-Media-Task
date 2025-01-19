@@ -109,7 +109,7 @@ const AdminDashboard = () => {
     ))}
   </div>
 ) : (
-  <p>No Users found.</p>
+  <p></p>
 )}
 
         </>
