@@ -9,7 +9,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:50001/admin/api/login", { username, password });
+      const response = await axios.post("https://social-media-task-mu.vercel.app/admin/api/login", { username, password });
       if (response.data.success) {
         localStorage.setItem("adminLoggedIn", "true");
         setIsLoggedIn(true);

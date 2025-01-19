@@ -25,7 +25,7 @@ const UserForm = () => {
     });
 
     try {
-      await axios.post("http://localhost:50001/user/api/upload", formData, {
+      await axios.post("https://social-media-task-mu.vercel.app/user/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
