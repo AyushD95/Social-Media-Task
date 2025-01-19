@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-
     const adminLoggedIn = localStorage.getItem('adminLoggedIn');
     if (adminLoggedIn === 'true') {
-      setIsLoggedIn(true);
       fetchUsers();
     } else {
-      setIsLoggedIn(false);
-      window.location.href = '/admin-login'; 
+      navigate('/admin'); // Redirect to the admin login page
     }
 
     // Initialize Socket.IO connection
@@ -31,7 +29,7 @@ const AdminDashboard = () => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [navigate]);
 
   const fetchUsers = async () => {
     try {
@@ -54,78 +52,80 @@ const AdminDashboard = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {isLoggedIn ? (
-        <>
-          <h2>Admin Dashboard</h2>
-          {users.length > 0 ? (
-  <div style={{ marginTop: '20px' }}>
-    {users.map((user) => (
-      user.images.map((imgUrl, index) => (
-        <div
-          key={`${user._id}-${index}`}
-          style={{
-            display: 'flex',
-            border: '1px solid white',
-            backgroundColor: '#333',
-            borderRadius: '7px',
-            alignItems: 'center',
-            marginBottom: '20px',
-            padding: '10px',
-          }}
-        >
-          <div style={{ flex: 1, paddingRight: '20px' }}>
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Social Handle:</strong>
-              <a href={`${user.socialMediaHandle}`} target="_blank" rel="noopener noreferrer"style={{
-                  color: '#00aced', 
-                  textDecoration: 'none', 
-                  fontWeight: 'bold',
-                  fontSize: '16px', 
-                  transition: 'color 0.3s', 
-                }}>
-                {user.socialMediaHandle}
-              </a>
-            </p>
-            <p><strong>Uploaded At:</strong> {new Date(user.createdAt).toLocaleString()}</p>
-          </div>
+      <h2>Admin Dashboard</h2>
+      {users.length > 0 ? (
+        <div style={{ marginTop: '20px' }}>
+          {users.map((user) =>
+            user.images.map((imgUrl, index) => (
+              <div
+                key={`${user._id}-${index}`}
+                style={{
+                  display: 'flex',
+                  border: '1px solid white',
+                  backgroundColor: '#333',
+                  borderRadius: '7px',
+                  alignItems: 'center',
+                  marginBottom: '20px',
+                  padding: '10px',
+                }}
+              >
+                <div style={{ flex: 1, paddingRight: '20px' }}>
+                  <p>
+                    <strong>Name:</strong> {user.name}
+                  </p>
+                  <p>
+                    <strong>Social Handle:</strong>
+                    <a
+                      href={`${user.socialMediaHandle}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: '#00aced',
+                        textDecoration: 'none',
+                        fontWeight: 'bold',
+                        fontSize: '16px',
+                        transition: 'color 0.3s',
+                      }}
+                    >
+                      {user.socialMediaHandle}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Uploaded At:</strong>{' '}
+                    {new Date(user.createdAt).toLocaleString()}
+                  </p>
+                </div>
 
-          <div style={{ flexShrink: 0 }}>
-            <img
-              src={imgUrl}
-              alt={`User submission ${index + 1}`}
-              onClick={() => openModal(imgUrl)} // Function to open modal for preview
-              style={{
-                width: '150px',
-                height: '150px',
-                objectFit: 'cover',
-                cursor: 'pointer',
-                borderRadius: '8px',
-                marginBottom: '10px', // Space between images
-              }}
-            />
-          </div>
+                <div style={{ flexShrink: 0 }}>
+                  <img
+                    src={imgUrl}
+                    alt={`User submission ${index + 1}`}
+                    onClick={() => openModal(imgUrl)} // Function to open modal for preview
+                    style={{
+                      width: '150px',
+                      height: '150px',
+                      objectFit: 'cover',
+                      cursor: 'pointer',
+                      borderRadius: '8px',
+                      marginBottom: '10px', // Space between images
+                    }}
+                  />
+                </div>
+              </div>
+            ))
+          )}
         </div>
-      ))
-    ))}
-  </div>
-) : (
-  <p></p>
-)}
-
-        </>
       ) : (
-        <p>Please log in to view the dashboard.</p>
+        <p></p>
       )}
 
       {isModalOpen && (
         <div style={modalStyles.overlay}>
           <div style={modalStyles.modal}>
-            <button onClick={closeModal} style={modalStyles.closeButton}>X</button>
-            <img
-              src={selectedImage}
-              alt="Preview"
-              style={modalStyles.modalImage}
-            />
+            <button onClick={closeModal} style={modalStyles.closeButton}>
+              X
+            </button>
+            <img src={selectedImage} alt="Preview" style={modalStyles.modalImage} />
           </div>
         </div>
       )}
@@ -152,8 +152,8 @@ const modalStyles = {
     padding: '10px',
     borderRadius: '8px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-    width: '300px', // Fixed width
-    height: '300px', // Fixed height
+    width: '300px',
+    height: '300px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
