@@ -3,8 +3,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast"; // Import toast from react-hot-toast
 
 const AdminLogin = ({ setIsLoggedIn }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("123");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -77,6 +77,9 @@ const AdminLogin = ({ setIsLoggedIn }) => {
             borderRadius: "5px",
           }}>Login</button>
       </form>
+
+      <p>Username:admin <br/>Password:123</p>
+
     </div>
   );
 };
