@@ -25,7 +25,7 @@ const UserForm = () => {
     });
 
     try {
-      await axios.post("https://qbj2grf1-50001.inc1.devtunnels.ms//user/api/upload", formData, {
+      await axios.post("https://qbj2grf1-50001.inc1.devtunnels.ms/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

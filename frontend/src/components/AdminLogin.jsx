@@ -70,6 +70,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
           />
         </div>
         <button type="submit" style={{
+            cursor:"pointer",
             padding: "10px 20px",
             backgroundColor: "#4caf50",
             color: "#fff",

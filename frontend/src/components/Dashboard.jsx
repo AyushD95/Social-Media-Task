@@ -20,7 +20,7 @@ const AdminDashboard = () => {
     }
 
     // Initialize Socket.IO connection
-    const socket = io('https://qbj2grf1-50001.inc1.devtunnels.ms/');
+    const socket = io('https://qbj2grf1-50001.inc1.devtunnels.ms');
 
     // Listen for 'new-submission' event
     socket.on('new-submission', (newUser) => {
