@@ -9,7 +9,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault();                 
     try {
-      const response = await axios.post("https://qbj2grf1-50001.inc1.devtunnels.ms/admin/api/login", { username, password });
+      const response = await axios.post("https://backetest-1.onrender.com/admin/api/login", { username, password });
       if (response.data.success) {
         localStorage.setItem("adminLoggedIn", "true");
         setIsLoggedIn(true);
