@@ -20,7 +20,7 @@ dbConnect(process.env.MONGO_URL)
 
 
 const corsOptions = {
-    origin: 'https://social-media-alpha-green.vercel.app', // Allow only this origin
+    origin: '*', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   };
