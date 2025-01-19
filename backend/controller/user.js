@@ -1,4 +1,4 @@
-import { io }  from '../server.js';
+import { io }  from '../index.js';
 import User from "../models/user.js";
 
 
