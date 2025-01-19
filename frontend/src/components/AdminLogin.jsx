@@ -16,9 +16,12 @@ const AdminLogin = ({ setIsLoggedIn }) => {
         toast.success("Login successful"); // Use react-hot-toast for success message
       }
     } catch (error) {
+
       toast.error(error.response?.data?.message || "Login failed"); // Use react-hot-toast for error message
     }
   };
+
+  
 
   return (
     <div style={{

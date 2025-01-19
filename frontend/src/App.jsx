@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link, useLocation } from "react-router-dom"; // Import useLocation
+import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from "react-router-dom"; // Import useNavigate
 import { Toaster } from "react-hot-toast"; // Import Toaster from react-hot-toast
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/Dashboard";
@@ -8,7 +8,6 @@ import UserForm from "./components/UserForm";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Move the Router wrapping inside the component
   return (
     <Router>
       <div style={{ backgroundColor: "#121212", color: "#f0f0f0", minHeight: "100vh" }}>
@@ -19,7 +18,13 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<UserForm />} />
-          <Route path="/admin" element={ isLoggedIn ? ( <AdminDashboard setIsLoggedIn={setIsLoggedIn} /> ) : (<AdminLogin setIsLoggedIn={setIsLoggedIn} />
+          <Route
+            path="/admin"
+            element={
+              isLoggedIn ? (
+                <AdminDashboard setIsLoggedIn={setIsLoggedIn} />
+              ) : (
+                <AdminLogin setIsLoggedIn={setIsLoggedIn} />
               )
             }
           />
@@ -29,12 +34,36 @@ const App = () => {
   );
 };
 
-// Create a separate Navigation component to avoid issues with useLocation
 const Navigation = () => {
-  const location = useLocation(); // Use useLocation within a component wrapped by Router
+  const navigate = useNavigate(); // Use navigate to programmatically navigate
+  const location = useLocation();
 
   const isUserFormActive = location.pathname === "/";
   const isAdminLoginActive = location.pathname === "/admin";
+
+  const handleNavigation = (path) => {
+    if (location.pathname !== path) {
+      navigate(path);
+    }
+  };
+
+  const buttonStyles = {
+    base: {
+      color: "#fff",
+      border: "none",
+      padding: "10px 20px",
+      borderRadius: "5px",
+      transition: "background-color 0.3s",
+    },
+    active: {
+      backgroundColor: "#555",
+      cursor: "not-allowed",
+    },
+    inactive: {
+      backgroundColor: "#4caf50",
+      cursor: "pointer",
+    },
+  };
 
   return (
     <nav
@@ -46,51 +75,27 @@ const Navigation = () => {
       }}
     >
       <button
-        disabled={isUserFormActive} // Disable the button when on User Form page
+        disabled={isUserFormActive}
+        aria-disabled={isUserFormActive}
         style={{
-          backgroundColor: isUserFormActive ? "#555" : "#4caf50",
-          color: "#fff",
-          border: "none",
-          padding: "10px 20px",
-          cursor: isUserFormActive ? "not-allowed" : "pointer",
-          borderRadius: "5px",
-          transition: "background-color 0.3s",
+          ...buttonStyles.base,
+          ...(isUserFormActive ? buttonStyles.active : buttonStyles.inactive),
         }}
+        onClick={() => handleNavigation("/")}
       >
-        <Link
-          to="/"
-          style={{
-            textDecoration: "none",
-            color: "#fff",
-            fontWeight: isUserFormActive ? "bold" : "normal",
-          }}
-        >
-          User Form
-        </Link>
+        User Form
       </button>
 
       <button
-        disabled={isAdminLoginActive} // Disable the button when on Admin Login page
+        disabled={isAdminLoginActive}
+        aria-disabled={isAdminLoginActive}
         style={{
-          backgroundColor: isAdminLoginActive ? "#555" : "#4caf50",
-          color: "#fff",
-          border: "none",
-          padding: "10px 20px",
-          cursor: isAdminLoginActive ? "not-allowed" : "pointer",
-          borderRadius: "5px",
-          transition: "background-color 0.3s",
+          ...buttonStyles.base,
+          ...(isAdminLoginActive ? buttonStyles.active : buttonStyles.inactive),
         }}
+        onClick={() => handleNavigation("/admin")}
       >
-        <Link
-          to="/admin"
-          style={{
-            textDecoration: "none",
-            color: "#fff",
-            fontWeight: isAdminLoginActive ? "bold" : "normal",
-          }}
-        >
-          Admin Login
-        </Link>
+        Admin Login
       </button>
     </nav>
   );
