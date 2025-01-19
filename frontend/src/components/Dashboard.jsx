@@ -20,7 +20,7 @@ const AdminDashboard = () => {
     }
 
     // Initialize Socket.IO connection
-    const socket = io('https://social-media-task-iota.vercel.app');
+    const socket = io('https://social-media-task-ppax.onrender.com');
 
     // Listen for 'new-submission' event
     socket.on('new-submission', (newUser) => {
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://social-media-task-iota.vercel.app/admin/api/users');
+      const response = await axios.get('https://social-media-task-ppax.onrender.com/admin/api/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching Users:', error);

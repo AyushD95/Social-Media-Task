@@ -25,7 +25,7 @@ const UserForm = () => {
     });
 
     try {
-      await axios.post("https://social-media-task-iota.vercel.app/user/api/upload", formData, {
+      await axios.post("https://social-media-task-ppax.onrender.com/user/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
