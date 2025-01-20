@@ -116,7 +116,7 @@ const AdminDashboard = () => {
           )}
         </div>
       ) : (
-        <p></p>
+        <h1>Loading.....</h1>
       )}
 
       {isModalOpen && (
