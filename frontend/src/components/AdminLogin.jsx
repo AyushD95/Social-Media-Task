@@ -8,7 +8,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();    
-    alert(" Backend take 40-60 sec to respont as it is hosted on tender")
+    alert(" Backend take 40-60 sec to respond on first request as it is hosted on render")
              
     try {
       const response = await axios.post("https://backetest-1.onrender.com/admin/api/login", { username, password });

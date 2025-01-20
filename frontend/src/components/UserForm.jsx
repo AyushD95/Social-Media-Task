@@ -17,7 +17,7 @@ const UserForm = () => {
     e.preventDefault();
     setIsSubmitting(true); // Disable the button
 
-    alert(" Backend take 40-60 sec to respont as it is hosted on tender")
+    alert(" Backend take 40-60 sec to respond on first request as it is hosted on render")
 
     const formData = new FormData();
     formData.append("name", name);
