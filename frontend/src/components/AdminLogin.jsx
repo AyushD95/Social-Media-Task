@@ -7,7 +7,9 @@ const AdminLogin = ({ setIsLoggedIn }) => {
   const [password, setPassword] = useState("123");
 
   const handleLogin = async (e) => {
-    e.preventDefault();                 
+    e.preventDefault();    
+    alert(" Backend take 40-60 sec to respont as it is hosted on tender")
+             
     try {
       const response = await axios.post("https://backetest-1.onrender.com/admin/api/login", { username, password });
       if (response.data.success) {
