@@ -1,4 +1,4 @@
-import React, { useState , useRef } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
@@ -15,9 +15,8 @@ const UserForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Disable the button
+    setIsSubmitting(true);
 
-    alert("Backend take 40-60 sec to respond on first request as it is hosted on render")
 
     const formData = new FormData();
     formData.append("name", name);
@@ -33,17 +32,17 @@ const UserForm = () => {
         },
       });
       toast.success("Submission successful!");
-      setName(""); // Clear inputs
+      setName("");
       setSocialHandle("");
       if (fileInputRef.current) {
-        fileInputRef.current.value = ""; // Clear the file input
+        fileInputRef.current.value = "";
       }
       setImages([]);
-      setIsSubmitting(false); // Enable the button
     } catch (error) {
       console.error("Error:", error);
       toast.error("Failed to submit. Please try again.");
-      setIsSubmitting(false); // Enable the button
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -52,8 +51,8 @@ const UserForm = () => {
       style={{
         textAlign: "center",
         marginTop: "50px",
-        backgroundColor: "#121212", // Dark mode background
-        color: "#f0f0f0", // Light text color
+        backgroundColor: "#121212",
+        color: "#f0f0f0",
         minHeight: "100vh",
         padding: "20px",
       }}
@@ -63,10 +62,11 @@ const UserForm = () => {
         onSubmit={handleSubmit}
         style={{
           display: "inline-block",
-          backgroundColor: "#1e1e1e", // Form background
+          backgroundColor: "#1e1e1e",
           padding: "20px",
           borderRadius: "10px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
+          position: "relative",
         }}
       >
         <div style={{ marginBottom: "15px" }}>
@@ -109,8 +109,6 @@ const UserForm = () => {
             multiple
             onChange={handleImageChange}
             ref={fileInputRef}
-            
-
             style={{
               padding: "10px",
               backgroundColor: "#333",
@@ -123,7 +121,7 @@ const UserForm = () => {
         </div>
         <button
           type="submit"
-          disabled={isSubmitting} // Disable button during submission
+          disabled={isSubmitting}
           style={{
             padding: "10px 20px",
             backgroundColor: isSubmitting ? "#555" : "#4caf50",
@@ -135,6 +133,26 @@ const UserForm = () => {
         >
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
+        {isSubmitting && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              color: "#fff",
+              padding: "20px",
+              borderRadius: "10px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
+              zIndex: "1000",
+              textAlign: "center",
+            }}
+          >
+            <div className="loader"></div>
+            <p>Processing... Please wait Backend may take 40-60 seconds to respond as it is hosted on render</p>
+          </div>
+        )}
       </form>
     </div>
   );
