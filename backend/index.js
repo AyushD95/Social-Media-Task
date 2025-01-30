@@ -12,7 +12,7 @@ import userRoutes from './routes/user.js'
 const PORT = process.env.PORT || 5001;
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, { cors: { origin: 'https://code-linkk.vercel.app' } });
 
 export { io };
 
@@ -20,7 +20,7 @@ dbConnect(process.env.MONGO_URL)
 
 
 const corsOptions = {
-    origin: '*',
+    origin: 'https://code-linkk.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     
 };
@@ -30,9 +30,6 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use("/get",(req,res)=>{
-    res.send("hi")
-})
 
 app.use('/user',userRoutes)
 app.use('/admin',adminRoutes)

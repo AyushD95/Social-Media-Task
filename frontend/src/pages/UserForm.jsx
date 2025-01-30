@@ -133,26 +133,7 @@ const UserForm = () => {
         >
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
-        {isSubmitting && (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
-              color: "#fff",
-              padding: "20px",
-              borderRadius: "10px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
-              zIndex: "1000",
-              textAlign: "center",
-            }}
-          >
-            <div className="loader"></div>
-            <p>Processing... Please wait Backend may take 40-60 seconds to respond as it is hosted on render</p>
-          </div>
-        )}
+       
       </form>
     </div>
   );

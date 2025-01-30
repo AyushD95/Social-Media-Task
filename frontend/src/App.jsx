@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from "react-router-dom"; // Import useNavigate
-import { Toaster } from "react-hot-toast"; // Import Toaster from react-hot-toast
-import AdminLogin from "./components/AdminLogin";
-import AdminDashboard from "./components/Dashboard";
-import UserForm from "./components/UserForm";
+import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from "react-router-dom"; 
+import { Toaster } from "react-hot-toast";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/Dashboard";
+import UserForm from "./pages/UserForm";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Router>
       <div style={{ backgroundColor: "#121212", color: "#f0f0f0", minHeight: "100vh" }}>
-        {/* Toaster for global toast notifications */}
+
         <Toaster position="top-right" />
 
         <Navigation />

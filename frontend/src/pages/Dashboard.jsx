@@ -20,11 +20,13 @@ const AdminDashboard = () => {
     // Initialize Socket.IO connection
     const socket = io('https://backetest.onrender.com/');
 
+    
     // Listen for 'new-submission' event
     socket.on('new-submission', (newUser) => {
       setUsers((prevUsers) => [newUser, ...prevUsers]); // Add new image to the top of the list
     });
 
+    
     // Clean up the socket connection when the component unmounts
     return () => {
       socket.disconnect();
