@@ -26,7 +26,7 @@ const UserForm = () => {
     });
 
     try {
-      await axios.post("https://backetest-1.onrender.com/user/api/upload", formData, {
+      await axios.post("https://backetest.onrender.com/user/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

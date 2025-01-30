@@ -13,7 +13,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
     setLoading(true); // Set loading to true before making the request
     
     try {
-      const response = await axios.post("https://backetest-1.onrender.com/admin/api/login", { username, password });
+      const response = await axios.post("https://backetest.onrender.com/admin/api/login", { username, password });
       setLoading(false); // Stop loading after the response
       
       if (response.data.success) {

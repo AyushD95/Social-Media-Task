@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     }
 
     // Initialize Socket.IO connection
-    const socket = io('https://backetest-1.onrender.com/');
+    const socket = io('https://backetest.onrender.com/');
 
     // Listen for 'new-submission' event
     socket.on('new-submission', (newUser) => {
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://backetest-1.onrender.com/admin/api/users');
+      const response = await axios.get('https://backetest.onrender.com/admin/api/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching Users:', error);
